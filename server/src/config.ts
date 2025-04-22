@@ -1,5 +1,5 @@
+import path from 'path';
 import * as dotenv from 'dotenv';
-import path from "path";
 
 (() => {
   dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -17,10 +17,16 @@ export default class Config {
     return this.#instance;
   }
 
+  // Database
   clusterUri = process.env.CLUSTER_URI_LOCAL || '';
+  database = 'ure-dev';
 
+  // Server
   server = {
     port: 8080,
   };
+
+  // JWT
+  jwtSecret = process.env.JWT_SECRET || '';
 
 }
