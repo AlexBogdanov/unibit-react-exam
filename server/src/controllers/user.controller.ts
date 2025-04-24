@@ -54,9 +54,4 @@ export default class UserController {
     res.status(200).json();
   }
 
-  some: RequestHandler = async (req, res) => {
-    console.log('req.user', req.user);
-    res.status(200).json();
-  }
-
 }

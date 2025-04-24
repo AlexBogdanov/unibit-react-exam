@@ -12,6 +12,5 @@ const UserRouter = Router();
 
 UserRouter.post('/login', useCatch(userController.login));
 UserRouter.post('/register', useCatch(userController.register));
-UserRouter.get('/some', passport.authenticate('bearer', { session: false }), useCatch(userController.some));
 
 export default UserRouter;
