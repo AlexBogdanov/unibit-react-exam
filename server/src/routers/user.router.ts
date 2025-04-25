@@ -1,4 +1,3 @@
-import passport from 'passport';
 import { Router } from 'express';
 
 import { getUseCatch } from '../utils/catch.util';

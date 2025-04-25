@@ -1,7 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
+import * as authApi from '../features/auth/auth.api.ts';
+
+import { User, LoginBody } from '../features/auth/auth.model.ts';
+
 type AuthContextType = {
-  user: string | null;
+  user: User | null;
   login: (user: string, password: string) => void;
   logout: () => void;
 }
@@ -9,13 +13,23 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<string | null>(
-    localStorage.getItem('user') || null,
+  const stringifiedUser = localStorage.getItem('user');
+  const [user, setUser] = useState<User | null>(
+    stringifiedUser ? JSON.parse(stringifiedUser) : null,
   );
 
-  const login = (username: string, password: string): Promise<void> => {
-    console.log(username, password);
-    return Promise.resolve();
+  const login = (email: string, password: string): Promise<void> => {
+    const loginBody: LoginBody = {
+      email,
+      password,
+    };
+
+    return authApi.login(loginBody)
+      .then(user => {
+        setUser(user);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.removeItem('token');
+      });
   };
 
   const logout = () => {
