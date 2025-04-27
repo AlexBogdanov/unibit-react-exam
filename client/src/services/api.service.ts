@@ -5,6 +5,23 @@ const getBaseHeaders = (): HeadersInit => ({
   'Authorization': `Bearer ${localStorage.getItem('token')}`,
 });
 
+const handleSuccess = (res: Response) => {
+  const token = res.headers.get('Authorization-Access');
+
+  if (token) {
+    localStorage.setItem('token', token);
+  }
+
+  return res.json();
+};
+
+const handleError = (res: Response) => {
+  return res.json()
+    .then(error => {
+      throw new Error(error.message);
+    });
+};
+
 function basicRequest<B, R>(
   path: string,
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
@@ -19,7 +36,7 @@ function basicRequest<B, R>(
     options = {
       method,
       headers,
-      body,
+      body: JSON.stringify(body),
     };
   } else {
     options = {
@@ -33,13 +50,11 @@ function basicRequest<B, R>(
     // @ts-ignore
     options,
   ).then((res) => {
-    const token = res.headers.get('Authorization-Access');
-
-    if (token) {
-      localStorage.setItem('token', token);
+    if (!res.ok) {
+      return handleError(res);
+    } else {
+      return handleSuccess(res);
     }
-
-    return res.json();
   }).catch((err: Error) => {
     throw err;
   });

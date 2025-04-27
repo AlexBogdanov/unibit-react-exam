@@ -86,7 +86,7 @@ export default class BookController {
 
     await bookData.deleteBook(id, logContext);
 
-    res.status(200).json();
+    res.status(200).json({});
   }
 
 }

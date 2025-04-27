@@ -22,7 +22,7 @@ export default class UserController {
 
     await userData.createUser(body, logContext);
 
-    res.status(201).json();
+    res.status(201).json({});
   }
 
   login: RequestHandler = async (req, res) => {
@@ -51,7 +51,14 @@ export default class UserController {
     res.header('Authorization-Access', token);
     res.header('Access-control-expose-headers', 'authorization-access');
 
-    res.status(200).json();
+    res.status(200).json({
+      email: user.email,
+      name: user.name,
+    });
+  }
+
+  user: RequestHandler = async (req, res) => {
+    res.status(200).json(req.user);
   }
 
 }

@@ -5,6 +5,10 @@ import '@fontsource/roboto/700.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import { Snackbar } from '@mui/material';
+
+import { useSnackbar } from './context/SnackbarContext.tsx';
+
 import HomePage from './pages/HomePage';
 
 import LoginPage from './pages/LoginPage';
@@ -20,6 +24,8 @@ import ProtectedRoute from './components/ProtectedRoute.tsx';
 import './App.css';
 
 function App() {
+  const { message, isOpen, hideSnackbar } = useSnackbar();
+
   return (
     <>
       <Router>
@@ -42,6 +48,15 @@ function App() {
           <Route path="*" element={ <NotFoundPage /> } />
         </Routes>
       </Router>
+
+      <Snackbar
+        key="snackbar"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        message={ message }
+        open={ isOpen }
+        onClose={ hideSnackbar }
+        autoHideDuration={ 5000 }
+      />
     </>
   )
 }

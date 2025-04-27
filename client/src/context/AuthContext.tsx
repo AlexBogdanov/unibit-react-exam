@@ -6,7 +6,7 @@ import { User, LoginBody } from '../features/auth/auth.model.ts';
 
 type AuthContextType = {
   user: User | null;
-  login: (user: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
