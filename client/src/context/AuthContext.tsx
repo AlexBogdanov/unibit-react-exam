@@ -21,23 +21,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAuthenticated = () => !!user;
 
-  const login = (email: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string): Promise<void> => {
     const loginBody: LoginBody = {
       email,
       password,
     };
 
-    return authApi.login(loginBody)
-      .then(user => {
-        setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.removeItem('token');
-      });
+    const user = await authApi.login(loginBody);
+
+    setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   return (

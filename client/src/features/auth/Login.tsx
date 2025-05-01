@@ -9,7 +9,7 @@ import { Box, Button, Link, TextField, Typography } from '@mui/material';
 import { useAuth } from '../../context/AuthContext.tsx';
 import { useSnackbar } from '../../context/SnackbarContext.tsx';
 
-import styles from '../../assets/styles/features/auth/auth.module.css';
+import styles from '../../assets/styles/form.module.css';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address'),

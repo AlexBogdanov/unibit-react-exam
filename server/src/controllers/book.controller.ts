@@ -19,6 +19,20 @@ export default class BookController {
     res.status(200).json(books);
   }
 
+  getBookById: RequestHandler = async (req, res) => {
+    const logContext = `${this.#logContext} -> getBook()`;
+
+    const id = req.params.id;
+
+    if (!isValidObjectId(id)) {
+      throw new CustomError(400, 'Invalid fields: id', logContext);
+    }
+
+    const book = await bookData.getBookById(id, logContext);
+
+    res.status(200).json(book);
+  }
+
   createBook: RequestHandler = async (req, res) => {
     const logContext = `${this.#logContext} -> createBook()`;
 

@@ -1,7 +1,7 @@
+import AddBook from '../features/book/AddBook';
+
 function AddBookPage() {
-  return (
-    <>Add book page works!</>
-  );
+  return <AddBook />;
 }
 
 export default AddBookPage;

@@ -17,7 +17,7 @@ export const configurePassport = () => {
         return done(null, false);
       }
 
-      const { id, email, name } = payload._doc;
+      const { id, email, name } = payload;
 
       const user: UserPayload = {
         id,
