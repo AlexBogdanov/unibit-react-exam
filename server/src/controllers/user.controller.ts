@@ -40,7 +40,11 @@ export default class UserController {
       throw new CustomError(404, `Invalid credentials`, logContext);
     }
 
-    const token = generateToken(user as UserPayload);
+    const token = generateToken({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    } as UserPayload);
 
     user.token = token;
     await user.save()

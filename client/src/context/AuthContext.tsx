@@ -6,6 +6,7 @@ import { User, LoginBody } from '../features/auth/auth.model.ts';
 
 type AuthContextType = {
   user: User | null;
+  isAuthenticated: () => boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -17,6 +18,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(
     stringifiedUser ? JSON.parse(stringifiedUser) : null,
   );
+
+  const isAuthenticated = () => !!user;
 
   const login = (email: string, password: string): Promise<void> => {
     const loginBody: LoginBody = {
@@ -38,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
       { children }
     </AuthContext.Provider>
   );

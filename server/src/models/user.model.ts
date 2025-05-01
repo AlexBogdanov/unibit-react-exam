@@ -13,7 +13,11 @@ interface IUser {
   updatedAt: Date;
 }
 
-interface UserPayload extends Omit<IUser, 'password' | 'token'> {}
+interface UserPayload {
+  id: string;
+  email: string;
+  name: string;
+}
 
 const UserSchema = new Schema<IUser>(
   {

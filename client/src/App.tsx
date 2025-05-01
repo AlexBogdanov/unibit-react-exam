@@ -3,11 +3,12 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
 import { Snackbar } from '@mui/material';
 
-import { useSnackbar } from './context/SnackbarContext.tsx';
+import { useAuth } from './context/AuthContext.tsx';
+import { useSnackbar } from './context/SnackbarContext';
 
 import HomePage from './pages/HomePage';
 
@@ -19,11 +20,12 @@ import NotFoundPage from './pages/NotFoundPage';
 import BookDetailsPage from './pages/BookDetailsPage';
 
 import Navbar from './components/Navbar';
-import ProtectedRoute from './components/ProtectedRoute.tsx';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
 
 function App() {
+  const { isAuthenticated } = useAuth();
   const { message, isOpen, hideSnackbar } = useSnackbar();
 
   return (
@@ -31,19 +33,30 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={ <HomePage /> } />
-
-          {/*Auth*/}
-          <Route path="/auth/login" element={ <LoginPage /> } />
-          <Route path="/auth/register" element={ <RegisterPage /> } />
-
           {/*Books*/}
-          <Route path="/book/add" element={
+          <Route path="/" element={ <HomePage /> } />
+          <Route path="/book" element={
             <ProtectedRoute>
               <AddBookPage />
             </ProtectedRoute>
           } />
           <Route path="/book/:id" element={ <BookDetailsPage /> } />
+
+          {/*Auth*/}
+          <Route path="/auth/login" element={
+            isAuthenticated() ? (
+              <Navigate to="/" />
+            ) : (
+              <LoginPage />
+            )
+          } />
+          <Route path="/auth/register" element={
+            isAuthenticated() ? (
+              <Navigate to="/" />
+            ) : (
+              <RegisterPage />
+            )
+          } />
 
           <Route path="*" element={ <NotFoundPage /> } />
         </Routes>

@@ -17,13 +17,12 @@ export const configurePassport = () => {
         return done(null, false);
       }
 
-      const { email, name, createdAt, updatedAt } = payload._doc;
+      const { id, email, name } = payload._doc;
 
       const user: UserPayload = {
+        id,
         email,
         name,
-        createdAt,
-        updatedAt,
       };
 
       return done(null, user);
