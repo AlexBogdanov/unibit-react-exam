@@ -5,7 +5,7 @@ import * as authApi from '../features/auth/auth.api.ts';
 import { User, LoginBody } from '../features/auth/auth.model.ts';
 
 type AuthContextType = {
-  user: User | null;
+  getUser: () => User | null;
   isAuthenticated: () => boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -18,6 +18,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(
     stringifiedUser ? JSON.parse(stringifiedUser) : null,
   );
+
+  const getUser = () => {
+    if (user) {
+      return user;
+    }
+
+    const userFromStorage = localStorage.getItem('user');
+
+    if (userFromStorage) {
+      return JSON.parse(userFromStorage) as User;
+    }
+
+    return null;
+  };
 
   const isAuthenticated = () => !!user;
 
@@ -40,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ getUser, isAuthenticated, login, logout }}>
       { children }
     </AuthContext.Provider>
   );

@@ -17,6 +17,7 @@ BookRouter.post('/', passport.authenticate('bearer', { session: false }), useCat
 
 BookRouter.patch('/:id', passport.authenticate('bearer', { session: false }), useCatch(bookController.updateBook));
 BookRouter.patch('/review/:id', passport.authenticate('bearer', { session: false }), useCatch(bookController.addReview));
+BookRouter.patch('/review/remove/:id', passport.authenticate('bearer', { session: false }), useCatch(bookController.removeReview));
 
 BookRouter.delete('/:id', passport.authenticate('bearer', { session: false }), useCatch(bookController.deleteBook));
 

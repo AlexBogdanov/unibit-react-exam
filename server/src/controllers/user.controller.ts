@@ -56,6 +56,7 @@ export default class UserController {
     res.header('Access-control-expose-headers', 'authorization-access');
 
     res.status(200).json({
+      id: user.id,
       email: user.email,
       name: user.name,
     });

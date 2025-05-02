@@ -2,7 +2,7 @@ import {Box, Link} from '@mui/material';
 
 import { useAuth } from '../context/AuthContext.tsx';
 
-import styles from '../assets/styles/components/navbar.module.css';
+import styles from '../assets/styles/navbar.module.css';
 
 function Navbar() {
   const { isAuthenticated, logout } = useAuth();

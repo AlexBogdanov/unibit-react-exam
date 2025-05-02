@@ -17,7 +17,7 @@ import RegisterPage from './pages/RegisterPage';
 
 import AddBookPage from './pages/AddBookPage';
 import NotFoundPage from './pages/NotFoundPage';
-import BookDetailsPage from './pages/BookDetailsPage';
+import BookPreviewPage from './pages/BookPreviewPage.tsx';
 
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -40,7 +40,8 @@ function App() {
               <AddBookPage />
             </ProtectedRoute>
           } />
-          <Route path="/book/:id" element={ <BookDetailsPage /> } />
+          <Route path="/book/edit/:id" element={ <>Book Edit</> } />
+          <Route path="/book/:id" element={ <BookPreviewPage /> } />
 
           {/*Auth*/}
           <Route path="/auth/login" element={

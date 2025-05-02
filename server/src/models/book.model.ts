@@ -1,14 +1,30 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
+
 import Config from '../config';
+
+import { IUser } from './user.model';
+
+interface Review {
+  reviewerId: Types.ObjectId | IUser;
+  reviewContent: string;
+}
 
 interface IBook {
   title: string;
   author: string;
   description: string;
   imageSrc: string;
-  reviews: Array<string>;
+  reviews: Array<Review>;
+  ownerId: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface ReviewResponse extends Review {
+  reviewer: string;
+}
+interface BookResponse extends Omit<IBook, 'reviews'> {
+  reviews: Array<ReviewResponse>;
 }
 
 const BookSchema = new Schema<IBook>(
@@ -30,8 +46,11 @@ const BookSchema = new Schema<IBook>(
       required: true,
     },
     reviews: {
-      type: [String],
+      type: [Object],
       default: [],
+    },
+    ownerId: {
+      type: Schema.Types.ObjectId,
     }
   },
   {
@@ -54,4 +73,4 @@ const Book = db.model<IBook>('Book', BookSchema);
 
 type BookDoc = ReturnType<(typeof Book)['hydrate']>;
 
-export { Book, BookDoc, IBook };
+export { Book, BookDoc, IBook, BookResponse, Review, ReviewResponse };

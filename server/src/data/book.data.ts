@@ -1,4 +1,4 @@
-import mongoose, { FilterQuery, UpdateQuery } from 'mongoose';
+import mongoose, { FilterQuery, UpdateQuery, PopulateOptions } from 'mongoose';
 
 import { CustomError } from '../middlewares/error.middleware';
 
@@ -6,13 +6,18 @@ import { Book, BookDoc, IBook } from '../models/book.model';
 
 const LOG_CONTEXT = 'Book Data';
 
-export const getBookById = async (id: string | mongoose.Types.ObjectId, logContext: string): Promise<IBook> => {
+export const getBookById = async (id: string | mongoose.Types.ObjectId, logContext: string, populate?: PopulateOptions): Promise<BookDoc> => {
   logContext += ` -> ${LOG_CONTEXT} -> getBookById() | id: ${id}`;
 
-  const book = await Book.findById(id)
-    .catch(err => {
-      throw new CustomError(500, err.message, logContext);
-    });
+  const query = Book.findById(id);
+
+  if (populate) {
+    query.populate(populate);
+  }
+
+  const book = await query.catch(err => {
+    throw new CustomError(500, err.message, logContext);
+  });
 
   if (!book) {
     throw new CustomError(404, 'Book not found', logContext);
@@ -21,13 +26,18 @@ export const getBookById = async (id: string | mongoose.Types.ObjectId, logConte
   return book;
 };
 
-export const getBooks = async (filter: FilterQuery<IBook>, logContext: string): Promise<BookDoc[]> => {
+export const getBooks = async (filter: FilterQuery<IBook>, logContext: string, select?: Array<string>): Promise<BookDoc[]> => {
   logContext += ` -> ${LOG_CONTEXT} -> getBooks() | filter: ${JSON.stringify(filter)}`;
 
-  return await Book.find(filter)
-    .catch(err => {
-      throw new CustomError(500, err.message, logContext);
-    });
+  let query = Book.find(filter);
+
+  if (select) {
+    query.select(select);
+  }
+
+  return await query.catch(err => {
+    throw new CustomError(500, err.message, logContext);
+  });
 }
 
 export const createBook = async (book: Partial<IBook>, logContext: string): Promise<BookDoc> => {

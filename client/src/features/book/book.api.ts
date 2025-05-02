@@ -1,8 +1,8 @@
 import * as apiService from '../../services/api.service';
 
-import { BookDTO, Book } from './book.model';
+import { BookDTO, Book, BookPreview } from './book.model';
 
-export const getBooks = (): Promise<Array<Book>> =>
+export const getBooks = (): Promise<Array<BookPreview>> =>
   apiService.get<Array<Book>>('book');
 
 export const getBookById = (id: string): Promise<Book> =>
