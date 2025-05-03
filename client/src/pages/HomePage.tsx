@@ -16,6 +16,7 @@ function HomePage() {
   const { showSnackbar } = useSnackbar();
 
   const [books, setBooks] = useState<BookPreview[]>([]);
+  const [trigger, setTrigger] = useState(0);
 
   useEffect(() => {
     bookApi.getBooks()
@@ -23,12 +24,16 @@ function HomePage() {
       .catch(() => {
         showSnackbar('Unable to get books. Please try again later!');
       });
-  }, []);
+  }, [trigger]);
 
   return (
     <Container className={styles.container}>
       {books.map((b) => (
-        <Book key={b.id} book={b} />
+        <Book
+          key={b.id}
+          book={b}
+          loadBooks={() => { setTrigger(prevState => prevState + 1) }}
+        />
       ))}
     </Container>
   );

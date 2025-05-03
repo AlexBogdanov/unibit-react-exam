@@ -6,19 +6,5 @@
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #111316;
-}
-
-.layout {
-  height: calc(100vh - 140px);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 60px;
 }

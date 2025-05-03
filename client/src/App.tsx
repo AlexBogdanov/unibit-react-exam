@@ -32,37 +32,35 @@ function App() {
     <>
       <Router>
         <Navbar />
-        <div className="layout">
-          <Routes>
-            {/*Books*/}
-            <Route path="/" element={ <HomePage /> } />
-            <Route path="/book" element={
-              <ProtectedRoute>
-                <AddBookPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/book/edit/:id" element={ <>Book Edit</> } />
-            <Route path="/book/:id" element={ <BookPreviewPage /> } />
+        <Routes>
+          {/*Books*/}
+          <Route path="/" element={ <HomePage /> } />
+          <Route path="/book" element={
+            <ProtectedRoute>
+              <AddBookPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/book/edit/:id" element={ <>Book Edit</> } />
+          <Route path="/book/:id" element={ <BookPreviewPage /> } />
 
-            {/*Auth*/}
-            <Route path="/auth/login" element={
-              isAuthenticated() ? (
-                <Navigate to="/" />
-              ) : (
-                <LoginPage />
-              )
-            } />
-            <Route path="/auth/register" element={
-              isAuthenticated() ? (
-                <Navigate to="/" />
-              ) : (
-                <RegisterPage />
-              )
-            } />
+          {/*Auth*/}
+          <Route path="/auth/login" element={
+            isAuthenticated() ? (
+              <Navigate to="/" />
+            ) : (
+              <LoginPage />
+            )
+          } />
+          <Route path="/auth/register" element={
+            isAuthenticated() ? (
+              <Navigate to="/" />
+            ) : (
+              <RegisterPage />
+            )
+          } />
 
-            <Route path="*" element={ <NotFoundPage /> } />
-          </Routes>
-        </div>
+          <Route path="*" element={ <NotFoundPage /> } />
+        </Routes>
       </Router>
 
       <Snackbar

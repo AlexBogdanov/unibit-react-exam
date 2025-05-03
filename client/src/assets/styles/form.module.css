@@ -1,6 +1,8 @@
 .container {
     width: 50%;
     height: 70%;
+    box-sizing: border-box;
+    padding: 20px 40px;
     border: 2px solid var(--accent);
 }
 
