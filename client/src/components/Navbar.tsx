@@ -1,4 +1,5 @@
-import {Box, Link} from '@mui/material';
+import { Box, Link } from '@mui/material';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 import { useAuth } from '../context/AuthContext.tsx';
 
@@ -11,6 +12,7 @@ function Navbar() {
     <Box className={styles.container}>
       <Box className={styles.wrapper}>
         <Box className={styles.left}>
+          <MenuBookIcon className={styles.icon} />
           <Link href="/">Books</Link>
           <Link href="/book">Add Book</Link>
         </Box>

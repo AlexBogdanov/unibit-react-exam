@@ -23,5 +23,11 @@
 
 .left {
     display: flex;
+    align-items: center;
     column-gap: 8px;
+}
+
+.icon {
+    color: var(--accent);
+    margin-right: 20px;
 }

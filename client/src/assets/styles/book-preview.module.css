@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card {
+    border: 2px solid var(--accent);
+}
+
+.left {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
+.left .title {
+    margin-bottom: 40px;
+}
+
+.left .reviews {}
+
+.right {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
+.right .card {
+    box-sizing: border-box;
+    padding: 40px 20px;
+}
+
+.right .cover {
+    height: auto;
+    width: 100%;
+    margin-bottom: 40px;
+}
