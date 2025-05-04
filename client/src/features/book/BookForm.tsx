@@ -1,16 +1,17 @@
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 
 import { useSnackbar } from '../../context/SnackbarContext.tsx';
 
 import * as bookApi from './book.api.ts';
 
-import {BookDTO} from './book.model.ts';
+import { Book, BookDTO } from './book.model.ts';
 
 import styles from '../../assets/styles/form.module.css';
 
@@ -22,10 +23,14 @@ const formSchema = z.object({
 });
 type FormData = z.infer<typeof formSchema>;
 
-function AddBook() {
+function BookForm({ id }: { id?: string }) {
   const navigate = useNavigate();
 
   const { showSnackbar } = useSnackbar();
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [bookId, setBookId] = useState<string | null>(null);
 
   const {
     register,
@@ -33,6 +38,33 @@ function AddBook() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormData>({ resolver: zodResolver(formSchema) });
+
+  useEffect(() => {
+    if (!id) {
+      setIsLoading(false);
+      return;
+    }
+
+    setBookId(id);
+    setIsEdit(true);
+
+    bookApi.getBookById(id)
+      .then((book) => {
+        reset({
+          title: book.title,
+          author: book.author,
+          description: book.description,
+          imageSrc: book.imageSrc,
+        });
+      })
+      .catch(() => {
+        showSnackbar('Unable to get book');
+        navigate('/');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [id]);
 
   const onSubmit = async (data: FormData) => {
     const { title, author, description, imageSrc } = data;
@@ -44,21 +76,36 @@ function AddBook() {
       imageSrc,
     };
 
-    await bookApi.createBook(dto)
-      .catch(() => {
-        showSnackbar('Unable to create book');
-      });
+    let request: Promise<Book>;
 
-    showSnackbar('Successfully created new book');
+    if (isEdit) {
+      request = bookApi.updateBook(bookId!, dto);
+    } else {
+      request = bookApi.createBook(dto);
+    }
+
+    await request.catch(() => {
+      showSnackbar(isEdit ? 'Unable to edit book' : 'Unable to create book');
+    });
+
+    showSnackbar(isEdit ? 'Successfully edited book' : 'Successfully created new book');
     reset();
     navigate('/');
   };
+
+  if (isLoading) {
+    return (
+      <Box className={styles.container}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box className={styles.container}>
       <form className={styles.form} onSubmit={ handleSubmit(onSubmit) }>
         <Typography variant="h4">
-          Add Book
+          { isEdit ? "Edit Book" : "Add Book" }
         </Typography>
         <TextField
           variant="outlined"
@@ -111,11 +158,11 @@ function AddBook() {
           variant="contained"
           loading={isSubmitting}
         >
-          Add
+          { isEdit ? "Edit" : "Add" }
         </Button>
       </form>
     </Box>
   );
 }
 
-export default AddBook;
+export default BookForm;

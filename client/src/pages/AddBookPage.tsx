@@ -1,7 +1,7 @@
-import AddBook from '../features/book/AddBook';
+import BookForm from '../features/book/BookForm';
 
 function AddBookPage() {
-  return <AddBook />;
+  return <BookForm />;
 }
 
 export default AddBookPage;

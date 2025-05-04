@@ -11,11 +11,11 @@ export const getBookById = (id: string): Promise<Book> =>
 export const createBook = (dto: BookDTO): Promise<Book> =>
   apiService.post<BookDTO, Book>('book', dto);
 
-export const updateBook = (id: string, dto: Partial<BookDTO>) =>
+export const updateBook = (id: string, dto: Partial<BookDTO>): Promise<Book> =>
   apiService.patch<Partial<BookDTO>, Book>(`book/${id}`, dto);
 
-export const addReview = (id: string, review: string) =>
-  apiService.patch(`book/review/${id}`, review);
+export const addReview = (id: string, review: string): Promise<Book> =>
+  apiService.patch<string, Book>(`book/review/${id}`, review);
 
 export const deleteBook = (id: string) =>
   apiService.del<void>(`book/${id}`);

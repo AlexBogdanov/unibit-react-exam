@@ -49,7 +49,7 @@ function Book({ book, loadBooks }: { book: BookPreview, loadBooks: () => void })
         <Button onClick={() => navigate(`/book/${book.id}`)}>Details</Button>
         {getUser()?.id === book.ownerId && (
           <>
-            {/*<Button>Edit</Button>*/}
+            <Button onClick={() => navigate(`/book/edit/${book.id}`)}>Edit</Button>
             <Button onClick={onDelete}>Delete</Button>
           </>
         )}

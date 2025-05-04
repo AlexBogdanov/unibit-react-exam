@@ -18,4 +18,4 @@ export type Book = {
 
 export interface BookPreview extends Pick<Book, 'id' | 'title' | 'description' | 'imageSrc' | 'ownerId'> {}
 
-export interface BookDTO extends Omit<Book, 'id' | 'createdAt' | 'updatedAt' | 'reviews'> {}
+export interface BookDTO extends Omit<Book, 'id' | 'createdAt' | 'updatedAt' | 'reviews' | 'ownerId'> {}

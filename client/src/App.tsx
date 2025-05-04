@@ -16,6 +16,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
 import AddBookPage from './pages/AddBookPage';
+import EditBookPage from './pages/EditBookPage';
 import NotFoundPage from './pages/NotFoundPage';
 import BookPreviewPage from './pages/BookPreviewPage.tsx';
 
@@ -40,7 +41,11 @@ function App() {
               <AddBookPage />
             </ProtectedRoute>
           } />
-          <Route path="/book/edit/:id" element={ <>Book Edit</> } />
+          <Route path="/book/edit/:id" element={
+            <ProtectedRoute>
+              <EditBookPage />
+            </ProtectedRoute>
+          } />
           <Route path="/book/:id" element={ <BookPreviewPage /> } />
 
           {/*Auth*/}
