@@ -5,7 +5,7 @@ import { CustomError } from '../middlewares/error.middleware';
 
 import * as bookData from '../data/book.data';
 
-import { IUser } from '../models/user.model';
+import { UserDoc } from '../models/user.model';
 import { IBook, BookResponse, Review, ReviewResponse } from '../models/book.model';
 
 export default class BookController {
@@ -42,10 +42,12 @@ export default class BookController {
       },
     );
 
-    const reviewsResponse: Array<ReviewResponse> = book.reviews.map(r => ({
-      ...r,
-      reviewer: (r.reviewerId as IUser).name,
-    }));
+    const reviewsResponse: Array<ReviewResponse> = book.reviews
+      .map(r => ({
+        reviewContent: r.reviewContent,
+        reviewerId: (r.reviewerId as UserDoc).id,
+        reviewer: (r.reviewerId as UserDoc).name,
+      }));
     const response: BookResponse = {
       ...book.toJSON(),
       reviews: reviewsResponse,

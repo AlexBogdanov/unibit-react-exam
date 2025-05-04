@@ -15,7 +15,10 @@ export const updateBook = (id: string, dto: Partial<BookDTO>): Promise<Book> =>
   apiService.patch<Partial<BookDTO>, Book>(`book/${id}`, dto);
 
 export const addReview = (id: string, review: string): Promise<Book> =>
-  apiService.patch<string, Book>(`book/review/${id}`, review);
+  apiService.patch<{ review: string }, Book>(`book/review/${id}`, { review });
+
+export const removeReview = (id: string): Promise<Book> =>
+  apiService.patch<{}, Book>(`book/review/remove/${id}`, {});
 
 export const deleteBook = (id: string) =>
   apiService.del<void>(`book/${id}`);

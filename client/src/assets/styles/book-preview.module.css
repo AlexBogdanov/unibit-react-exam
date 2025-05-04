@@ -18,7 +18,40 @@
     margin-bottom: 40px;
 }
 
-.left .reviews {}
+.left form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 12px;
+    margin-bottom: 12px;
+}
+
+.left form .textField {
+    width: 100%;
+}
+
+.left form .submitButton {
+    width: 30%;
+}
+
+.left .reviews {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+}
+
+.left .reviews > * {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--accent);
+    box-sizing: border-box;
+    padding: 8px 12px;
+}
+
+.left .reviews .reviewer {
+    display: flex;
+    flex-direction: row-reverse;
+}
 
 .right {
     width: 30%;

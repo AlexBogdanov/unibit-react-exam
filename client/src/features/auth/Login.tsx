@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +18,6 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 function Login() {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -40,9 +39,7 @@ function Login() {
       });
 
     reset();
-
-    const path = location.state?.from?.pathname ?? '/';
-    navigate(path);
+    navigate('/');
   };
 
   return (
